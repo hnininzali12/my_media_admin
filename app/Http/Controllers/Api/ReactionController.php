@@ -22,6 +22,16 @@ class ReactionController extends Controller
        ]);
     }
 
+    //delete reaction
+    public function deleteReaction(Request $request){
+       Reaction::where('reaction_id',$request->reaction_id)
+                 ->delete();
+       $reaction = Reaction::where('post_id',$request->post_id)->get();
+       return response()->json([
+        'post'=>$reaction,
+       ]);
+    }
+
     //get reaction
     public function reactionCount(Request $request){
         $reaction=Reaction::where('post_id',$request->post_id)
@@ -42,7 +52,9 @@ class ReactionController extends Controller
         Reaction::create($data);
            $comment = Reaction::select('users.name','reactions.*')
                             ->join('users','reactions.user_id','users.id')
-                            ->where('post_id',$request->post_id)->get();
+                            ->where('post_id',$request->post_id)
+                            ->orderBy('created_at','desc')
+                            ->get();
         return response()->json([
             'comment'=>$comment,
         ]);
@@ -52,7 +64,9 @@ class ReactionController extends Controller
      public function getComment(Request $request){
         $comment = Reaction::select('users.name','reactions.*')
                             ->join('users','reactions.user_id','users.id')
-                            ->where('post_id',$request->post_id)->get();
+                            ->where('post_id',$request->post_id)
+                            ->orderBy('created_at','desc')
+                            ->get();
         return response()->json([
             'comment'=>$comment,
         ]);
@@ -63,7 +77,9 @@ class ReactionController extends Controller
         Reaction::where('reaction_id',$request->reaction_id)->delete();
        $data = Reaction::select('users.name','reactions.*')
                             ->join('users','reactions.user_id','users.id')
-                            ->where('post_id',$request->post_id)->get();
+                            ->where('post_id',$request->post_id)
+                            ->orderBy('created_at','desc')
+                            ->get();
         return response()->json([
           'comment'=>$data,
         ]);
@@ -80,6 +96,7 @@ class ReactionController extends Controller
            $comment = Reaction::select('users.name','reactions.*')
                             ->join('users','reactions.user_id','users.id')
                             ->where('post_id',$request->post_id)
+                            ->orderBy('created_at','desc')
                             ->get();
         return response()->json([
             'comment'=>$comment,

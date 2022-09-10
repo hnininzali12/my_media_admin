@@ -27,6 +27,7 @@ Route::post('category/search',[CategoryController::class,'categorySearch']);
 Route::post('actionLogs',[ActionLogsController::class,'setActionLogs']);
 
 Route::post('reaction',[ReactionController::class,'reaction']);
+Route::post('reaction/delete',[ReactionController::class,'deleteReaction']);
 Route::post('reaction/count',[ReactionController::class,'reactionCount']);
 Route::post('comment',[ReactionController::class,'comment']);
 Route::post('get/comment',[ReactionController::class,'getComment']);

@@ -21,7 +21,7 @@ class CategoryController extends Controller
     public function categorySearch(Request $request){
        $search =Category::select('posts.*','categories.title as category_title')
                          ->join('posts','categories.category_id','posts.category_id')
-                         ->where('categories.category_id',$request->key)
+                         ->where('categories.category_id','like','%'.$request->key.'%')
                          ->get();
         return response()->json([
             'result' =>$search,
